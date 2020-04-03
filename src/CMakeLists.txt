@@ -346,6 +346,18 @@ else()
     message(STATUS "Not on Linux: building without GLX support.")
 endif()
 
+if(${CMAKE_SYSTEM_NAME} MATCHES "Android")
+    include_directories(agl)
+    list(APPEND GL_SRC
+        glx/gbm.c
+        glx/glx.c
+        glx/lookup.c
+        glx/streaming.c
+    )
+    include_directories(..)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -funwind-tables -O3 -fvisibility=hidden -include include/android_debug.h")
+endif()
+
 if(AMIGAOS4)
     include_directories(agl)
     list(APPEND GL_SRC
